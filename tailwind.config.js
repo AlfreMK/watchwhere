@@ -5,7 +5,12 @@ module.exports = {
     extend: {
       width: {
         '200px': '200px',
+        '400px': '400px',
+        '500px': '500px',
         '600px': '600px',
+      },
+      minWidth: {
+        '300px': '300px',
       }
     }
   },

@@ -1,54 +1,58 @@
 import './App.css';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext, createContext } from 'react';
 import { searchMoviesByName, getProviders, imgUrl } from './api/apiFunctions';
 import styled from 'styled-components';
 import Providers from './components/Providers';
+import SearchInput from './components/SearchInput';
 
+
+const SearchContext = createContext();
 
 function App() {
+  const defaultProviders = {buy: [], stream: []};
   const [movies, setMovies] = useState([]);
+  const [country, setCountry] = useState("CL");
   const [activeMovie, setActiveMovie] = useState(
     {
       id: null,
-      providers: {buy: [], stream: []},
+      providers: defaultProviders,
     }
   );
-  let promise = searchMoviesByName("Harry Potter");
-    promise.then((movies) => {
-      setMovies(movies);
-    });
-
+  
   const updateActiveMovie = (movie) => {
     if (movie.id === activeMovie.id) {
       setActiveMovie({
         id: null,
-        providers: {buy: [], stream: []},
+        providers: defaultProviders,
       });
       return;
     }
-    let promise = getProviders(movie, "CL");
+    let promise = getProviders(movie, country);
     promise.then((providers) => {
       setActiveMovie({
         id: movie.id,
         providers: providers,
       });
     });
-    console.log(activeMovie)
+    // console.log(activeMovie)
   };
 
   return (
     <Container>
       <Title>Providers by Movie</Title>
+      <SearchContext.Provider value={{setMovies}}>
+        <SearchInput placeholder="Search a movie..." context={SearchContext}/>
+      </SearchContext.Provider>
       <MoviesContainer>
         {movies.map((movie) => (
           <Movie
             key={movie.id}
             onClick={() => updateActiveMovie(movie)}
-            className={movie.id === activeMovie.id? "w-600px": "w-200px"}
+            className={movie.id === activeMovie.id? "w-500px": "w-200px"}
             >
             <Image src={imgUrl(movie)} alt={movie.title}/>
             <Info className={movie.id === activeMovie.id? "flex" : "hidden"}>
-              <Title>{movie.title}</Title>
+              <TitleMovie>{movie.title}</TitleMovie>
               <Providers providers={activeMovie.providers}/>
             </Info>
           </Movie>
@@ -77,7 +81,7 @@ const MoviesContainer = styled.div`
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
-  width: 80%;
+  margin: 40px;
   transition: all 0.5s ease;
 `;
 
@@ -110,10 +114,17 @@ const Info = styled.div`
 `;
 
 const Title = styled.h2`
-  font-size: 1em;
+  font-size: 1.4em;
+  margin: 1em;
   text-align: center;
   font-weight: bold;
-  text-transform: uppercase;
+`;
+
+const TitleMovie = styled.h3`
+  font-size: 1.2em;
+  margin-bottom: 1em;
+  text-align: center;
+  font-weight: bold;
 `;
 
 export default App;

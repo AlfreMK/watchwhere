@@ -13,6 +13,7 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  background-color: rgb(243 244 246);
 }
 
 code {
@@ -28,4 +29,9 @@ code {
   to {
       opacity: 1;
   }
+}
+
+.gg-chevron-down {
+  /* This value will multiple the actual size  */
+  --ggs: 0.7;
 }

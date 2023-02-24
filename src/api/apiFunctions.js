@@ -1,3 +1,5 @@
+import not_found from "../images/not_found.png";
+
 
 const API_KEY = process.env.REACT_APP_API_KEY;
 const URL = "https://api.themoviedb.org/3";
@@ -11,8 +13,8 @@ const parseMovies = (d) => ({
 });
 
 const parseProviders = (d) => ({
-    buy: d.buy,
-    stream: d.flatrate,    
+    buy: d.buy || [],
+    stream: d.flatrate || [],
 });
 
 async function searchMoviesByName(name) {
@@ -46,7 +48,7 @@ async function getProviders(movie, country) {
 
 function imgUrl(movie) {
     if (movie.img === null) {
-        return "../images/not_found.png"
+        return not_found
     }        
     else{
         return `https://image.tmdb.org/t/p/w500${movie.img}`;
@@ -55,7 +57,7 @@ function imgUrl(movie) {
 
 function logoProvider(provider) {
     if (provider.logo_path === null) {
-        return "../images/not_found.png"
+        return not_found
     }        
     else{
         return `https://image.tmdb.org/t/p/w500${provider.logo_path}`;
