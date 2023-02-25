@@ -25,7 +25,8 @@ async function searchMoviesByName(name, media) {
         const response = await fetch(url);
         const data = await response.json();
         const results = data.results.map(parseMovies);
-        return results.slice(0, 20);
+        // filter results with null poster_path
+        return results.filter((movie) => movie.img !== null).slice(0, 20);
         // return results;
     }
     catch(error){

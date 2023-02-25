@@ -33,7 +33,7 @@ function App() {
     promise.then((movies) => {
       setTrendingMovies(movies);
     });
-  }, []);
+  }, [mediaType]);
   const defaultProviders = {buy: [], stream: []};
   const [movies, setMovies] = useState([]);
   const [country, setCountry] = useState("CL");
@@ -59,15 +59,20 @@ function App() {
         providers: providers,
       });
     });
-    // console.log(activeMovie)
   };
 
 
   return (
     <Container>
-      <Title>Streaming Providers by {mediaType.name}</Title>
+      <span className='inline-flex items-center justify-center'>
+        <Title>Streaming Providers by</Title>
+        <Selector onChange={(e) => {updateMediaType(e.target.value); setMovies([])}}>
+          <option value="movie">Movie</option>
+          <option value="tv">Serie</option>
+        </Selector>
+      </span>
       <SearchContext.Provider value={{setMovies, country, setCountry}}>
-        <SearchInput placeholder={`Search a ${mediaType.name}...`} context={SearchContext}/>
+        <SearchInput placeholder={`Search a ${mediaType.name}...`} context={SearchContext} media={mediaType.value}/>
       </SearchContext.Provider>
       <MoviesContainer>
         {movies.map((movie) => (
@@ -132,6 +137,18 @@ const MoviesContainer = styled.div`
   transition: all 0.5s ease;
 `;
 
+const Selector = styled.select`
+  background-color: #e5e7eb;
+  font-weight: bold;
+  font-size: 1.2em;
+  height: 40px;
+  padding: 0 10px;
+  cursor: pointer;
+  border-radius: 5px;
+  border: 1px solid #d1d5db;
+  margin-left: 10px;
+`;
+
 const Movie = styled.div`
   display: flex;
   flex-direction: row;
@@ -160,7 +177,7 @@ const Info = styled.div`
 
 const Title = styled.h2`
   font-size: 1.4em;
-  margin: 1em;
+  margin: 1em 0;
   text-align: center;
   font-weight: bold;
 `;

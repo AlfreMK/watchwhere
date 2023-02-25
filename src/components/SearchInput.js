@@ -11,7 +11,7 @@ function SearchInput(props) {
     const [inputValue, setInputValue] = useState("");
 
     const updateMovies = (query) => {
-        let promise = searchMoviesByName(query);
+        let promise = searchMoviesByName(query, props.media);
         promise.then((movies) => {
         setMovies(movies);
         });
