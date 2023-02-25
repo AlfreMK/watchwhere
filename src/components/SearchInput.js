@@ -1,10 +1,12 @@
 import styled from 'styled-components';
 import { useState, useContext } from 'react';
 import { searchMoviesByName } from '../api/apiFunctions';
+import countries from '../api/countries.json';
 
 function SearchInput(props) {
 
-    const {setMovies} = useContext(props.context);
+    const {setMovies, country, setCountry} = useContext(props.context);
+    const [dropdown, setDropdown] = useState(false);
     const [inputValue, setInputValue] = useState("");
 
     const updateMovies = (query) => {
@@ -21,12 +23,27 @@ function SearchInput(props) {
     }
 
     return (
-        
         <div className="relative mt-1 w-2/3 min-w-300px flex">
-            <button className='bg-gray-200 inline-flex items-center rounded-l-full px-4 pr-2 border border-gray-300 hover:border-gray-400 hover:bg-gray-200' >
-                    CL
-                <i className="gg-chevron-down"></i>
-            </button>
+            <div className='inline-flex'>
+                <button className='bg-gray-200 inline-flex items-center rounded-l-full px-4 pr-2 border border-gray-300 hover:border-gray-400 hover:bg-gray-200'
+                    onClick={() => setDropdown(!dropdown)}
+                    >
+                        {country}
+                    <i className="gg-chevron-down"></i>
+                </button>
+                <div className={"top-12 absolute bg-white divide-y divide-gray-100 rounded-lg shadow cursor-pointer "+ (dropdown? "block" : "hidden")}>
+                    <ul className="text-sm text-gray-700 overflow-y-scroll h-60" >
+                        {countries.map((country) => (
+                            <li key={country} className="py-2 px-4 hover:bg-gray-100"
+                                onClick={() => {setCountry(country); setDropdown(false);setMovies([])}}>
+                                <button>
+                                    {country}
+                                </button>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            </div>
 
             <input 
                 id='search'

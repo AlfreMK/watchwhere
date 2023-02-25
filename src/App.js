@@ -40,16 +40,17 @@ function App() {
   return (
     <Container>
       <Title>Providers by Movie</Title>
-      <SearchContext.Provider value={{setMovies}}>
+      <SearchContext.Provider value={{setMovies, country, setCountry}}>
         <SearchInput placeholder="Search a movie..." context={SearchContext}/>
       </SearchContext.Provider>
       <MoviesContainer>
         {movies.map((movie) => (
           <Movie
-            key={movie.id}
-            onClick={() => updateActiveMovie(movie)}
-            className={movie.id === activeMovie.id? "w-500px": "w-200px"}
-            >
+          key={movie.id}
+          onClick={() => updateActiveMovie(movie)}
+          className={"bg-sky-900 text-gray-200 shadow "}
+          style={{minWidth: (movie.id === activeMovie.id? "500px":"200px")}}
+          >
             <Image src={imgUrl(movie)} alt={movie.title}/>
             <Info className={movie.id === activeMovie.id? "flex" : "hidden"}>
               <TitleMovie>{movie.title}</TitleMovie>
@@ -79,18 +80,19 @@ const MoviesContainer = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   flex-wrap: wrap;
   margin: 40px;
+  overflow-y: hidden;
+  overflow-x: scroll;
+  scroll-behavior: smooth;
   transition: all 0.5s ease;
 `;
 
 const Movie = styled.div`
   display: flex;
   flex-direction: row;
-  // width: 200px;
-  padding: 10px;
-  box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgb(209, 213, 219) 0px 0px 0px 1px inset;
+  padding: 5px;
   margin: 5px;
   cursor: pointer;
   transition: all 0.5s ease;

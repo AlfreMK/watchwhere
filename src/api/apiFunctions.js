@@ -23,7 +23,7 @@ async function searchMoviesByName(name) {
         const response = await fetch(url);
         const data = await response.json();
         const results = data.results.map(parseMovies);
-        return results.slice(0, 5);
+        return results.slice(0, 10);
         // return results;
     }
     catch(error){
