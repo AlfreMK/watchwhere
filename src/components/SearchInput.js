@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { useState, useContext } from 'react';
 import { searchMoviesByName } from '../api/apiFunctions';
 import countries from '../api/countries.json';
+import { findFlagUrlByIso2Code } from 'country-flags-svg';
 
 function SearchInput(props) {
 
@@ -22,23 +23,34 @@ function SearchInput(props) {
         }
     }
 
+    // if there is click outside the dropdown, close it
+    document.addEventListener('click', (e) => {
+        if (e.target.id !== 'dropdown-buttton' && e.target.id !== 'dropdown') {
+            setDropdown(false);
+        }
+    });
+
     return (
         <div className="relative mt-1 w-2/3 min-w-300px flex">
             <div className='inline-flex'>
-                <button className='bg-gray-200 inline-flex items-center rounded-l-full px-4 pr-2 border border-gray-300 hover:border-gray-400 hover:bg-gray-200'
-                    onClick={() => setDropdown(!dropdown)}
+                <button 
+                    id='dropdown-buttton'
+                    className='flex bg-gray-200 px-6 items-center rounded-l-full border border-gray-300 hover:border-gray-400 hover:bg-gray-200'
+                    onClick={(e) => {setDropdown(!dropdown)}}
                     >
-                        {country}
-                    <i className="gg-chevron-down"></i>
+                    <img className="inline-flex w-6 h-4 mr-2 pointer-events-none" src={findFlagUrlByIso2Code(country)} alt={country} />
+                    {country}
+                    <i className="gg-chevron-down pointer-events-none"></i>
                 </button>
-                <div className={"top-12 absolute bg-white divide-y divide-gray-100 rounded-lg shadow cursor-pointer "+ (dropdown? "block" : "hidden")}>
-                    <ul className="text-sm text-gray-700 overflow-y-scroll h-60" >
+                <div 
+                    id='dropdown'
+                    className={"top-12 absolute bg-white divide-y divide-gray-100 rounded-lg shadow cursor-pointer "+ (dropdown? "block" : "hidden")}>
+                    <ul className="text-sm text-gray-700 overflow-y-scroll h-40" >
                         {countries.map((country) => (
                             <li key={country} className="py-2 px-4 hover:bg-gray-100"
-                                onClick={() => {setCountry(country); setDropdown(false);setMovies([])}}>
-                                <button>
-                                    {country}
-                                </button>
+                                onClick={() => {setCountry(country); setDropdown(false); setMovies([])}}>
+                                <img className="inline-block w-6 h-4 mr-2" src={findFlagUrlByIso2Code(country)} alt={country} />
+                                {country}
                             </li>
                         ))}
                     </ul>

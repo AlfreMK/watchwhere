@@ -68,5 +68,5 @@ export {
     searchMoviesByName,
     getProviders,
     imgUrl,
-    logoProvider
+    logoProvider,
 };
