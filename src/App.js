@@ -80,7 +80,7 @@ function App() {
   return (
     <Container>
       <div className='flex items-center mb-10'>
-        <Title>Streaming Providers by</Title>
+        <Title>I Wanna Watch a...</Title>
         <Selector onChange={(e) => {updateMediaType(e.target.value); setMovies([])}}>
           <option value="movie">Movie</option>
           <option value="tv">Serie</option>
