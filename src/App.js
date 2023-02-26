@@ -1,6 +1,7 @@
 import './App.css';
-import { useState, useEffect, useContext, createContext } from 'react';
-import { searchMoviesByName, getProviders, imgUrl, getTrendingMovies } from './api/apiFunctions';
+import { useState, useEffect, createContext } from 'react';
+import { getProviders, imgUrl, getTrendingMovies } from './api/apiFunctions';
+import {Link} from 'react-router-dom';
 import styled from 'styled-components';
 import Providers from './components/Providers';
 import SearchInput from './components/SearchInput';
@@ -61,10 +62,9 @@ function App() {
     });
   };
 
-
   return (
     <Container>
-      <span className='inline-flex items-center justify-center'>
+      <span className='inline-flex items-center justify-center mt-6'>
         <Title>Streaming Providers by</Title>
         <Selector onChange={(e) => {updateMediaType(e.target.value); setMovies([])}}>
           <option value="movie">Movie</option>
@@ -78,9 +78,8 @@ function App() {
         {movies.map((movie) => (
           <Movie
           key={movie.id}
-          onClick={() => updateActiveMovie(movie, mediaType.value)}
-          className={"bg-sky-900 text-gray-200 shadow "}
-          style={{minWidth: (movie.id === activeMovie.id? "500px":"200px")}}
+          to={`/movie/${movie.id}/${mediaType.value}`}
+          className={"shadow inactive-movie "}
           >
             <Image src={imgUrl(movie)} alt={movie.title}/>
             <Info className={movie.id === activeMovie.id? "flex" : "hidden"}>
@@ -90,20 +89,17 @@ function App() {
           </Movie>
         ))}
       </MoviesContainer>
+      <TitleTrending>
       Trending {mediaType.name}s
+      </TitleTrending>
       <MoviesContainer>
         {trendingMovies.map((movie) => (
           <Movie
           key={movie.id}
-          onClick={() => updateActiveMovie(movie, mediaType.value)}
-          className={"bg-sky-900 text-gray-200 shadow "}
-          style={{minWidth: (movie.id === activeMovie.id? "500px":"200px")}}
+          to={`/movie/${movie.id}/${mediaType.value}`}
+          className={"shadow inactive-movie "}
           >
             <Image src={imgUrl(movie)} alt={movie.title}/>
-            <Info className={movie.id === activeMovie.id? "flex" : "hidden"}>
-              <TitleMovie>{movie.title}</TitleMovie>
-              <Providers providers={activeMovie.providers}/>
-            </Info>
           </Movie>
         ))}
       </MoviesContainer>
@@ -115,6 +111,11 @@ const Image = styled.img`
   width: 200px;
   height: 300px;
   object-fit: cover;
+  // media
+  @media (max-width: 768px) {
+    width: 100px;
+    height: 150px;
+  }
 `;
 
 const Container = styled.div`
@@ -128,31 +129,52 @@ const MoviesContainer = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: flex-start;
   margin: 40px;
   overflow-y: hidden;
   overflow-x: scroll;
   scroll-behavior: smooth;
-  width: ${window.innerWidth-80}px;
   transition: all 0.5s ease;
+  justify-content: flex-start;
+  width: ${window.innerWidth-80}px;
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+
+  &::-webkit-scrollbar {
+    width: 1px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: transparent;
+  }
+  // justify-content: center;
+  // flex-wrap: wrap;
 `;
 
 const Selector = styled.select`
-  background-color: #e5e7eb;
+  background-color: #3730a3;
   font-weight: bold;
   font-size: 1.2em;
   height: 40px;
   padding: 0 10px;
   cursor: pointer;
   border-radius: 5px;
-  border: 1px solid #d1d5db;
+  border: 2px solid #3730a3;
   margin-left: 10px;
+  &:hover {
+    background-color: #4338ca;
+  };
+  @media (max-width: 768px) {
+    font-size: 1em;
+  }
 `;
 
-const Movie = styled.div`
+const Movie = styled(Link)`
   display: flex;
   flex-direction: row;
-  padding: 5px;
   margin: 5px;
   cursor: pointer;
   transition: all 0.5s ease;
@@ -168,7 +190,6 @@ const Info = styled.div`
   align-items: center;
   justify-content: center;
   text-align: justify;
-  height: 300px;
   width: 400px;
   padding-left: 20px;
   padding-right: 20px;
@@ -180,6 +201,9 @@ const Title = styled.h2`
   margin: 1em 0;
   text-align: center;
   font-weight: bold;
+  @media (max-width: 768px) {
+    font-size: 1em;
+  }
 `;
 
 const TitleMovie = styled.h3`
@@ -187,6 +211,18 @@ const TitleMovie = styled.h3`
   margin-bottom: 1em;
   text-align: center;
   font-weight: bold;
+  @media (max-width: 768px) {
+    font-size: 0.8em;
+  }
+`;
+
+const TitleTrending = styled.h2`
+  font-size: 1.2em;
+  text-align: center;
+  font-weight: bold;
+  @media (max-width: 768px) {
+    font-size: 0.8em;
+  }
 `;
 
 export default App;

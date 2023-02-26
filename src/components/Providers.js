@@ -39,6 +39,10 @@ const Image = styled.img`
     width: 50px;
     height: 50px;
     border-radius: 12px;
+    @media (max-width: 768px) {
+        width: 40px;
+        height: 40px;
+    }
 
 `;
 
@@ -49,7 +53,7 @@ const Container = styled.div`
     justify-content: center;
     align-items: center;
     margin: 5px;
-    background-color: #072d42;
+    background-color: #312e81;
     border-radius: 8px;
     padding: 5px;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
@@ -74,4 +78,9 @@ const Text = styled.span`
     line-height: initial;
     color: #a5b3b9;
     text-transform: uppercase;
+    letter-spacing: 0.5px;
+    @media (max-width: 768px) {
+        font-size: 12px;
+    }
+
 `;

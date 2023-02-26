@@ -35,6 +35,20 @@ async function searchMoviesByName(name, media) {
     return [];
 }
 
+async function getMovieById(id, media) {
+    const url = `${URL}/${media}/${id}?api_key=${API_KEY}`;
+    try{
+        const response = await fetch(url);
+        const data = await response.json();
+        const results = parseMovies(data);
+        return results;
+    }
+    catch(error){
+        console.error(error);
+    }
+    return {};
+}
+
 async function getTrendingMovies(media) {
     const url = `${URL}/trending/${media}/week?api_key=${API_KEY}`;
     try{
@@ -83,6 +97,7 @@ function logoProvider(provider) {
 
 export {
     searchMoviesByName,
+    getMovieById,
     getProviders,
     imgUrl,
     logoProvider,
