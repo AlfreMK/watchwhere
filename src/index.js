@@ -7,14 +7,18 @@ import { Routes, Route, BrowserRouter} from 'react-router-dom';
 
 import Footer from './components/Footer';
 import Movie from './components/Movie';
+import Logo from './components/Logo';
+
+const URL = "watchwhere"
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
+    <Logo/>
     <BrowserRouter>
     <Routes>
-      <Route path='/' element={<App />} />
-      <Route path='/movie/:id/:media' element={<Movie/>}/>
+      <Route path={`${URL}/`} element={<App />} />
+      <Route path={`${URL}/movie/:id/:media`} element={<Movie/>}/>
     </Routes>
     </BrowserRouter>
     <Footer/>

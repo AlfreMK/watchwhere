@@ -7,6 +7,8 @@ import SearchInput from './components/SearchInput';
 import LoadingSpin from './components/LoadingSpin';
 
 const SearchContext = createContext();
+const URL = "watchwhere"
+
 
 function App() {
   const [mediaType, setMediaType] = useState({
@@ -39,7 +41,7 @@ function App() {
 
   return (
     <Container>
-      <div className='flex items-center mt-6 mb-4'>
+      <div className='flex items-center mb-10'>
         <Title>Streaming Providers by</Title>
         <Selector onChange={(e) => {updateMediaType(e.target.value); setMovies([])}}>
           <option value="movie">Movie</option>
@@ -53,7 +55,7 @@ function App() {
         {movies.map((movie) => (
           <Movie
           key={movie.id}
-          to={`/movie/${movie.id}/${mediaType.value}`}
+          to={`/${URL}/movie/${movie.id}/${mediaType.value}`}
           className={"shadow inactive-movie "}
           >
             <Image src={imgUrl(movie)} alt={movie.title}/>
@@ -68,7 +70,7 @@ function App() {
         {trendingMovies.map((movie) => (
           <Movie
           key={movie.id}
-          to={`/movie/${movie.id}/${mediaType.value}`}
+          to={`/${URL}/movie/${movie.id}/${mediaType.value}`}
           className={"shadow inactive-movie "}
           >
             <Image src={imgUrl(movie)} alt={movie.title}/>
@@ -129,7 +131,6 @@ const MoviesContainer = styled.div`
 
 const Selector = styled.select`
   background-color: #3730a3;
-  font-weight: bold;
   font-size: 1.2em;
   height: 40px;
   padding: 0 10px;
@@ -160,7 +161,7 @@ const Movie = styled(Link)`
 const Title = styled.h2`
   font-size: 1.4em;
   text-align: center;
-  font-weight: bold;
+  letter-spacing: 1px;
   margin-right: 10px;
   @media (max-width: 768px) {
     font-size: 1em;
@@ -171,7 +172,7 @@ const Title = styled.h2`
 const TitleTrending = styled.h2`
   font-size: 1.2em;
   text-align: center;
-  font-weight: bold;
+  letter-spacing: 1px;
   @media (max-width: 768px) {
     font-size: 0.8em;
   }

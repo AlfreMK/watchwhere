@@ -97,6 +97,7 @@ const Container = styled.div`
     justify-content: center;
     align-items: center;
     margin: 5px;
+    position: relative;
 `;
 
 const MoviePoster = styled.div`
