@@ -1,4 +1,4 @@
-# WatchWhere
+# [WatchWhere](https://alfremk.github.io/watchwhere)
 Your One-Stop Destination to Find the Best Streaming Providers for Movies and TV Shows!
 
 ## Introduction
