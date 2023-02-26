@@ -1,9 +1,8 @@
 import './App.css';
 import { useState, useEffect, createContext } from 'react';
-import { getProviders, imgUrl, getTrendingMovies } from './api/apiFunctions';
+import { imgUrl, getTrendingMovies } from './api/apiFunctions';
 import {Link} from 'react-router-dom';
 import styled from 'styled-components';
-import Providers from './components/Providers';
 import SearchInput from './components/SearchInput';
 
 
@@ -35,32 +34,8 @@ function App() {
       setTrendingMovies(movies);
     });
   }, [mediaType]);
-  const defaultProviders = {buy: [], stream: []};
   const [movies, setMovies] = useState([]);
-  const [country, setCountry] = useState("CL");
-  const [activeMovie, setActiveMovie] = useState(
-    {
-      id: null,
-      providers: defaultProviders,
-    }
-  );
   
-  const updateActiveMovie = (movie) => {
-    if (movie.id === activeMovie.id) {
-      setActiveMovie({
-        id: null,
-        providers: defaultProviders,
-      });
-      return;
-    }
-    let promise = getProviders(movie, mediaType.value, country);
-    promise.then((providers) => {
-      setActiveMovie({
-        id: movie.id,
-        providers: providers,
-      });
-    });
-  };
 
   return (
     <Container>
@@ -71,7 +46,7 @@ function App() {
           <option value="tv">Serie</option>
         </Selector>
       </span>
-      <SearchContext.Provider value={{setMovies, country, setCountry}}>
+      <SearchContext.Provider value={{setMovies}}>
         <SearchInput placeholder={`Search a ${mediaType.name}...`} context={SearchContext} media={mediaType.value}/>
       </SearchContext.Provider>
       <MoviesContainer>
@@ -82,10 +57,6 @@ function App() {
           className={"shadow inactive-movie "}
           >
             <Image src={imgUrl(movie)} alt={movie.title}/>
-            <Info className={movie.id === activeMovie.id? "flex" : "hidden"}>
-              <TitleMovie>{movie.title}</TitleMovie>
-              <Providers providers={activeMovie.providers}/>
-            </Info>
           </Movie>
         ))}
       </MoviesContainer>
