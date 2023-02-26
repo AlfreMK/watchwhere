@@ -49,7 +49,7 @@ async function getMovieById(id, media) {
     return {};
 }
 
-async function getTrendingMovies(media) {
+async function getWeeklyTrendingMovies(media) {
     const url = `${URL}/trending/${media}/week?api_key=${API_KEY}`;
     try{
         const response = await fetch(url);
@@ -63,8 +63,23 @@ async function getTrendingMovies(media) {
     return [];
 }
 
-async function getTrendingAnimes(media) {
-    const url = `${URL}/trending/${media}/week?api_key=${API_KEY}&with_genres=16`;
+async function getDailyTrendingMovies(media) {
+    const url = `${URL}/trending/${media}/day?api_key=${API_KEY}`;
+    try{
+        const response = await fetch(url);
+        const data = await response.json();
+        const results = data.results.map(parseMovies);
+        return results.slice(0, 20);
+    }
+    catch(error){
+        console.error(error);
+    }
+    return [];
+}
+
+async function getTrendingByGenre(media, genre) {
+    const url = `${URL}/discover/${media}?api_key=${API_KEY}&sort_by=popularity.desc&with_genres=${genre}`;
+
     try{
         const response = await fetch(url);
         const data = await response.json();
@@ -116,6 +131,7 @@ export {
     getProviders,
     imgUrl,
     logoProvider,
-    getTrendingMovies,
-    getTrendingAnimes,
+    getWeeklyTrendingMovies,
+    getDailyTrendingMovies,
+    getTrendingByGenre,
 };

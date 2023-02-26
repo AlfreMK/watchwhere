@@ -133,6 +133,9 @@ const Info = styled.div`
     align-items: center;
     width: 75%;
     padding: 50px 20px;
+    @media (max-width: 768px) {
+        width: 90%;
+    }
 `;
 
 const Overview = styled.p`

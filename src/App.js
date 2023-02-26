@@ -1,13 +1,14 @@
 import './App.css';
 import { useState, useEffect, createContext } from 'react';
-import { imgUrl, getTrendingMovies } from './api/apiFunctions';
+import { imgUrl, getWeeklyTrendingMovies, getTrendingByGenre } from './api/apiFunctions';
 import {Link} from 'react-router-dom';
 import styled from 'styled-components';
 import SearchInput from './components/SearchInput';
 import LoadingSpin from './components/LoadingSpin';
+import TrendingCarousel from './components/TrendingCarousel';
 
 const SearchContext = createContext();
-const URL = "watchwhere"
+const URL = "watchwhere";
 
 
 function App() {
@@ -16,8 +17,12 @@ function App() {
     value: "movie",
   });
   const [movies, setMovies] = useState([]);
-  const [trendingMovies, setTrendingMovies] = useState([]);
+  const [trendingWeek, setTrendingWeek] = useState([]);
+  const [animes, setAnimes] = useState([]);
+  const [crimes, setCrimes] = useState([]);
+  const [histories, setHistories] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [docus, setDocus] = useState([]);
 
 
   const updateMediaType = (option) => {
@@ -35,11 +40,31 @@ function App() {
   };
 
   useEffect(() => {
-    let promise = getTrendingMovies(mediaType.value);
+    let promise = getWeeklyTrendingMovies(mediaType.value);
     promise.then((movies) => {
-      setTrendingMovies(movies);
+      setTrendingWeek(movies);
     });
+    let promise2 = getTrendingByGenre(mediaType.value, 16);
+    promise2.then((animes) => {
+      setAnimes(animes);
+    });
+    let promise3 = getTrendingByGenre(mediaType.value, 99);
+    promise3.then((horror) => {
+      setDocus(horror);
+    }
+    );
+    let promise4 = getTrendingByGenre(mediaType.value, 80);
+    promise4.then((crimes) => {
+      setCrimes(crimes);
+    }
+    );
+    let promise5 = getTrendingByGenre(mediaType.value, 36);
+    promise5.then((dramas) => {
+      setHistories(dramas);
+    }
+    );
   }, [mediaType]);
+
 
   // add event listener to listen when user presses enter or clicks search button
   useEffect(() => {
@@ -76,21 +101,11 @@ function App() {
           </Movie>
         ))}
       </MoviesContainer>
-      <TitleTrending>
-        Trending {mediaType.name}s
-      </TitleTrending>
-        {trendingMovies.length === 0 && <LoadingSpin/>}
-      <MoviesContainer>
-        {trendingMovies.map((movie) => (
-          <Movie
-          key={movie.id}
-          to={`/${URL}/movie/${movie.id}/${mediaType.value}`}
-          className={"shadow inactive-movie "}
-          >
-            <Image src={imgUrl(movie)} alt={movie.title}/>
-          </Movie>
-        ))}
-      </MoviesContainer>
+      <TrendingCarousel movies={trendingWeek} media={mediaType} genre={"Weekly"}/>
+      <TrendingCarousel movies={animes} media={mediaType} genre={"Animation"}/>
+      <TrendingCarousel movies={crimes} media={mediaType} genre={"Crime"}/>
+      <TrendingCarousel movies={histories} media={mediaType} genre={"History"}/>
+      <TrendingCarousel movies={docus} media={mediaType} genre={"Documentary"}/>
     </Container>
   );
 }
@@ -183,13 +198,5 @@ const Title = styled.h2`
 `;
 
 
-const TitleTrending = styled.h2`
-  font-size: 1.2em;
-  text-align: center;
-  letter-spacing: 1px;
-  @media (max-width: 768px) {
-    font-size: 0.8em;
-  }
-`;
 
 export default App;
