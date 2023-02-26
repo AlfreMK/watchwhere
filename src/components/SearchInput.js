@@ -1,4 +1,3 @@
-import styled from 'styled-components';
 import { useState, useContext } from 'react';
 import { searchMoviesByName } from '../api/apiFunctions';
 

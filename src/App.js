@@ -156,17 +156,6 @@ const Movie = styled(Link)`
   };
 `;
 
-const Info = styled.div`
-  // display: none;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: justify;
-  width: 400px;
-  padding-left: 20px;
-  padding-right: 20px;
-  animation: fadein 2s;
-`;
 
 const Title = styled.h2`
   font-size: 1.4em;
@@ -178,15 +167,6 @@ const Title = styled.h2`
   }
 `;
 
-const TitleMovie = styled.h3`
-  font-size: 1em;
-  margin-bottom: 1em;
-  text-align: center;
-  font-weight: bold;
-  @media (max-width: 768px) {
-    font-size: 0.8em;
-  }
-`;
 
 const TitleTrending = styled.h2`
   font-size: 1.2em;

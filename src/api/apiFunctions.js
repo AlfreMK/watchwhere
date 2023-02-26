@@ -109,6 +109,7 @@ function logoProvider(provider) {
     }
 }
 
+
 export {
     searchMoviesByName,
     getMovieById,

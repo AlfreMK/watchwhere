@@ -1,6 +1,6 @@
 import {useEffect, useState} from 'react';
 import {useParams} from 'react-router-dom';
-import { getMovieById, getProviders, imgUrl } from '../api/apiFunctions';
+import { getMovieById, getProviders, imgUrl, getIsoCode } from '../api/apiFunctions';
 import Providers from './Providers';
 import styled from 'styled-components';
 import countries from '../api/countries.json';
@@ -9,9 +9,9 @@ import { findFlagUrlByIso2Code } from 'country-flags-svg';
 function Movie(){
     const {id} = useParams();
     const {media} = useParams();
-    // const {country} = useParams();
-    const [country, setCountry] = useState("CL");
+    const [country, setCountry] = useState(localStorage.getItem("country") || "CL");
     const [dropdown, setDropdown] = useState(false);
+    
 
     const [movie, setMovie] = useState({id: undefined});
     const [providers, setProviders] = useState({buy: [], stream: []});
@@ -57,11 +57,11 @@ function Movie(){
                     </button>
                     <div 
                         id='dropdown'
-                        className={"top-12 absolute bg-indigo-900 divide-y divide-gray-100 rounded-lg shadow cursor-pointer "+ (dropdown? "block" : "hidden")}>
+                        className={"top-12 absolute bg-indigo-900 divide-y divide-gray-100 rounded-lg shadow-xl cursor-pointer "+ (dropdown? "block" : "hidden")}>
                         <ul className="text-sm overflow-y-scroll h-40" >
                             {countries.map((country) => (
-                                <li key={country} className="py-2 px-2 hover:bg-indigo-800 rounded-lg"
-                                    onClick={() => {setCountry(country); setDropdown(false);}}>
+                                <li key={country} className="py-2 px-6 hover:bg-indigo-800 rounded-lg"
+                                    onClick={() => {setCountry(country); setDropdown(false);localStorage.setItem('country', country)}} >
                                     <img className="inline-block w-6 h-4 mr-2" src={findFlagUrlByIso2Code(country)} alt={country} />
                                     {country}
                                 </li>
