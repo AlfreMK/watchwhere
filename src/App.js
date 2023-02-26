@@ -13,6 +13,9 @@ function App() {
     name: "Movie",
     value: "movie",
   });
+  const [movies, setMovies] = useState([]);
+  const [trendingMovies, setTrendingMovies] = useState([]);
+
   const updateMediaType = (option) => {
     if (option === "movie") {
       setMediaType({
@@ -27,15 +30,12 @@ function App() {
     }
   };
 
-  const [trendingMovies, setTrendingMovies] = useState([]);
   useEffect(() => {
     let promise = getTrendingMovies(mediaType.value);
     promise.then((movies) => {
       setTrendingMovies(movies);
     });
   }, [mediaType]);
-  const [movies, setMovies] = useState([]);
-  
 
   return (
     <Container>
@@ -106,21 +106,22 @@ const MoviesContainer = styled.div`
   scroll-behavior: smooth;
   transition: all 0.5s ease;
   justify-content: flex-start;
-  width: ${window.innerWidth-80}px;
+
   scrollbar-width: thin;
   scrollbar-color: transparent transparent;
-
+  
   &::-webkit-scrollbar {
     width: 1px;
   }
-
+  
   &::-webkit-scrollbar-track {
     background: transparent;
   }
-
+  
   &::-webkit-scrollbar-thumb {
     background-color: transparent;
   }
+  width: 85vw;
   // justify-content: center;
   // flex-wrap: wrap;
 `;

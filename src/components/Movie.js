@@ -45,33 +45,31 @@ function Movie(){
                 <Title>{movie.title}</Title>
             </MovieFront>
             <Info>
-                <RowContainer>
-                    <Overview>{movie.overview}</Overview>
-                    <Dropdown>
-                        <button 
-                            id='dropdown-buttton'
-                            className='flex bg-indigo-800 px-6 py-2 items-center rounded-xl border border-indigo-700 hover:border-indigo-900 hover:bg-indigo-700'
-                            onClick={(e) => {setDropdown(!dropdown)}}
-                            >
-                            <img className="inline-flex w-6 h-4 mr-2 pointer-events-none" src={findFlagUrlByIso2Code(country)} alt={country} />
-                            {country}
-                            <i className="gg-chevron-down pointer-events-none"></i>
-                        </button>
-                        <div 
-                            id='dropdown'
-                            className={"top-12 absolute bg-indigo-900 divide-y divide-gray-100 rounded-lg shadow cursor-pointer "+ (dropdown? "block" : "hidden")}>
-                            <ul className="text-sm overflow-y-scroll h-40" >
-                                {countries.map((country) => (
-                                    <li key={country} className="py-2 px-2 hover:bg-indigo-800 rounded-lg"
-                                        onClick={() => {setCountry(country); setDropdown(false);}}>
-                                        <img className="inline-block w-6 h-4 mr-2" src={findFlagUrlByIso2Code(country)} alt={country} />
-                                        {country}
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
-                    </Dropdown>
-                </RowContainer>
+                <Dropdown>
+                    <button 
+                        id='dropdown-buttton'
+                        className='flex bg-indigo-800 px-6 py-2 items-center rounded-xl border border-indigo-700 hover:border-indigo-900 hover:bg-indigo-700'
+                        onClick={(e) => {setDropdown(!dropdown)}}
+                        >
+                        <img className="inline-flex w-6 h-4 mr-2 pointer-events-none" src={findFlagUrlByIso2Code(country)} alt={country} />
+                        {country}
+                        <i className="gg-chevron-down pointer-events-none"></i>
+                    </button>
+                    <div 
+                        id='dropdown'
+                        className={"top-12 absolute bg-indigo-900 divide-y divide-gray-100 rounded-lg shadow cursor-pointer "+ (dropdown? "block" : "hidden")}>
+                        <ul className="text-sm overflow-y-scroll h-40" >
+                            {countries.map((country) => (
+                                <li key={country} className="py-2 px-2 hover:bg-indigo-800 rounded-lg"
+                                    onClick={() => {setCountry(country); setDropdown(false);}}>
+                                    <img className="inline-block w-6 h-4 mr-2" src={findFlagUrlByIso2Code(country)} alt={country} />
+                                    {country}
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                </Dropdown>
+                <Overview>{movie.overview}</Overview>
                 <Providers providers={providers}/>
             </Info>
         </Container>
@@ -145,12 +143,6 @@ const Title = styled.h1`
     @media (max-width: 768px) {
         font-size: 1.3rem;
     }
-`;
-
-const RowContainer = styled.div`
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
 `;
 
 const Dropdown = styled.div`
