@@ -1,6 +1,6 @@
 import {useEffect, useState} from 'react';
 import {useParams} from 'react-router-dom';
-import { getMovieById, getProviders, imgUrl, getIsoCode } from '../api/apiFunctions';
+import { getMovieById, getProviders, imgUrl } from '../api/apiFunctions';
 import Providers from './Providers';
 import styled from 'styled-components';
 import countries from '../api/countries.json';
