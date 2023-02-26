@@ -7,9 +7,11 @@ function SearchInput(props) {
     const [inputValue, setInputValue] = useState("");
 
     const updateMovies = (query) => {
+        document.dispatchEvent(new Event("thereIsAQuery"));
         let promise = searchMoviesByName(query, props.media);
         promise.then((movies) => {
-        setMovies(movies);
+            setMovies(movies);
+            document.dispatchEvent(new Event("thereIsAQuery"));
         });
     };
 
@@ -18,6 +20,7 @@ function SearchInput(props) {
             updateMovies(inputValue);
         }
     }
+
     return (
         <div className="relative mt-1 w-2/3 min-w-300px flex">
             <input 

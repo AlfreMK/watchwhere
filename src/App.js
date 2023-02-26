@@ -17,6 +17,8 @@ function App() {
   });
   const [movies, setMovies] = useState([]);
   const [trendingMovies, setTrendingMovies] = useState([]);
+  const [loading, setLoading] = useState(false);
+
 
   const updateMediaType = (option) => {
     if (option === "movie") {
@@ -39,6 +41,17 @@ function App() {
     });
   }, [mediaType]);
 
+  // add event listener to listen when user presses enter or clicks search button
+  useEffect(() => {
+    const handleEvent = () => {
+        setLoading(!loading);
+    }
+    document.addEventListener("thereIsAQuery", handleEvent);
+    return () => {
+        document.removeEventListener("thereIsAQuery", handleEvent);
+    }
+}, [loading]);
+
   return (
     <Container>
       <div className='flex items-center mb-10'>
@@ -51,6 +64,7 @@ function App() {
       <SearchContext.Provider value={{setMovies}}>
         <SearchInput placeholder={`Search a ${mediaType.name}...`} context={SearchContext} media={mediaType.value}/>
       </SearchContext.Provider>
+      {loading && <LoadingSpin/>}
       <MoviesContainer>
         {movies.map((movie) => (
           <Movie
