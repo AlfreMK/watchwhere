@@ -5,6 +5,7 @@ import Providers from './Providers';
 import styled from 'styled-components';
 import countries from '../api/countries.json';
 import { findFlagUrlByIso2Code } from 'country-flags-svg';
+import LoadingSpin from './LoadingSpin';
 
 function Movie(){
     const {id} = useParams();
@@ -21,7 +22,7 @@ function Movie(){
         promise.then((movie) => {
             setMovie(movie);
         });
-    }, []);
+    }, [id, media]);
     useEffect(() => {
         if (movie.id === undefined) {
             return;
@@ -30,7 +31,7 @@ function Movie(){
         promise.then((providers) => {
             setProviders(providers);
         });
-    }, [movie, country]);
+    }, [movie, media, country]);
     // if there is click outside the dropdown, close it
     document.addEventListener('click', (e) => {
         if (e.target.id !== 'dropdown-buttton' && e.target.id !== 'dropdown') {
@@ -39,6 +40,7 @@ function Movie(){
     });
     return (
         <Container>
+            {movie.id === undefined && <LoadingSpin/>}
             <MoviePoster style={{backgroundImage: `url(${imgUrl(movie)})`}} />
             <MovieFront>
                 <Image src={imgUrl(movie)} alt={movie.title}/>

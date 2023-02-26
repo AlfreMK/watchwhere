@@ -4,7 +4,7 @@ import { imgUrl, getTrendingMovies } from './api/apiFunctions';
 import {Link} from 'react-router-dom';
 import styled from 'styled-components';
 import SearchInput from './components/SearchInput';
-
+import LoadingSpin from './components/LoadingSpin';
 
 const SearchContext = createContext();
 
@@ -39,13 +39,13 @@ function App() {
 
   return (
     <Container>
-      <span className='inline-flex items-center justify-center mt-6'>
+      <div className='flex items-center mt-6 mb-4'>
         <Title>Streaming Providers by</Title>
         <Selector onChange={(e) => {updateMediaType(e.target.value); setMovies([])}}>
           <option value="movie">Movie</option>
           <option value="tv">Serie</option>
         </Selector>
-      </span>
+      </div>
       <SearchContext.Provider value={{setMovies}}>
         <SearchInput placeholder={`Search a ${mediaType.name}...`} context={SearchContext} media={mediaType.value}/>
       </SearchContext.Provider>
@@ -61,8 +61,9 @@ function App() {
         ))}
       </MoviesContainer>
       <TitleTrending>
-      Trending {mediaType.name}s
+        Trending {mediaType.name}s
       </TitleTrending>
+        {trendingMovies.length === 0 && <LoadingSpin/>}
       <MoviesContainer>
         {trendingMovies.map((movie) => (
           <Movie
@@ -135,7 +136,6 @@ const Selector = styled.select`
   cursor: pointer;
   border-radius: 5px;
   border: 2px solid #3730a3;
-  margin-left: 10px;
   &:hover {
     background-color: #4338ca;
   };
@@ -159,9 +159,9 @@ const Movie = styled(Link)`
 
 const Title = styled.h2`
   font-size: 1.4em;
-  margin: 1em 0;
   text-align: center;
   font-weight: bold;
+  margin-right: 10px;
   @media (max-width: 768px) {
     font-size: 1em;
   }
