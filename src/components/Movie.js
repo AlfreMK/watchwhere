@@ -134,7 +134,7 @@ const Info = styled.div`
     width: 75%;
     padding: 50px 20px;
     @media (max-width: 768px) {
-        width: 90%;
+        width: 100%;
     }
 `;
 

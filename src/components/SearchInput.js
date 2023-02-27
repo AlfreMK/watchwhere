@@ -34,7 +34,7 @@ function SearchInput(props) {
                 onKeyDown={handleKeyDown}
                 />
             <button
-                className="block w-7 h-7 text-center text-xl leading-0 absolute top-1 md:top-2 right-2 text-gray-400 focus:outline-none hover:text-indigo-700 transition-colors"
+                className="block w-7 h-7 text-center text-xl leading-0 absolute top-1.5 md:top-2 right-2 text-gray-400 focus:outline-none hover:text-indigo-700 transition-colors"
                 onClick={() => updateMovies(inputValue)}
                 >
                     <i className="gg-search"></i>

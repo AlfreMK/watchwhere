@@ -34,7 +34,8 @@ const MoviesContainer = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin: 40px;
+  margin-top: 5px;
+  margin-bottom: 30px;
   overflow-y: hidden;
   overflow-x: scroll;
   scroll-behavior: smooth;
@@ -96,10 +97,10 @@ const Movie = styled(Link)`
 
 const TitleTrending = styled.h2`
   font-size: 1.2em;
-  width: 83vw;
+  width: 80vw;
   letter-spacing: 1px;
   @media (max-width: 768px) {
-    font-size: 0.8em;
+    font-size: 0.9em;
   }
 `;
 
