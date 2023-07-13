@@ -14,10 +14,6 @@ import TrendingCarousel from "./components/TrendingCarousel";
 const SearchContext = createContext();
 const URL = "watchwhere";
 const initialState = {
-  mediaType: {
-    name: localStorage.getItem("mediaType") === "tv" ? "Serie" : "Movie",
-    value: localStorage.getItem("mediaType") || "movie",
-  },
   movies: [],
   trendingWeek: [],
   animes: [],
@@ -28,7 +24,13 @@ const initialState = {
 };
 
 function App() {
-  const [state, setState] = useState(initialState);
+  const [state, setState] = useState({
+    ...initialState,
+    mediaType: {
+      name: localStorage.getItem("mediaType") === "tv" ? "Serie" : "Movie",
+      value: localStorage.getItem("mediaType") || "movie",
+    },
+  });
 
   const updateMediaType = (option) => {
     let name = option === "movie" ? "Movie" : "Serie";
@@ -99,7 +101,10 @@ function App() {
     <Container>
       <div className="flex items-center mb-10">
         <Title>I Wanna Watch a...</Title>
-        <Selector onChange={(e) => updateMediaType(e.target.value)} value={mediaType.value}>
+        <Selector
+          onChange={(e) => updateMediaType(e.target.value)}
+          value={mediaType.value}
+        >
           <option value="movie">Movie</option>
           <option value="tv">Serie</option>
         </Selector>
