@@ -18,7 +18,7 @@ root.render(
     <BrowserRouter>
     <Routes>
       <Route path={`${URL}/`} element={<App />} />
-      <Route path={`${URL}/movie/:id/:media`} element={<Movie/>}/>
+      <Route path={`${URL}/:media/:id`} element={<Movie/>}/>
     </Routes>
     </BrowserRouter>
     <Footer/>

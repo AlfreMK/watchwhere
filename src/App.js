@@ -1,114 +1,180 @@
-import './App.css';
-import { useState, useEffect, createContext } from 'react';
-import { imgUrl, getWeeklyTrendingMovies, getTrendingByGenre } from './api/apiFunctions';
-import {Link} from 'react-router-dom';
-import styled from 'styled-components';
-import SearchInput from './components/SearchInput';
-import LoadingSpin from './components/LoadingSpin';
-import TrendingCarousel from './components/TrendingCarousel';
+import "./App.css";
+import { useState, useEffect, createContext } from "react";
+import {
+  imgUrl,
+  getWeeklyTrendingMovies,
+  getTrendingByGenre,
+} from "./api/apiFunctions";
+import { Link } from "react-router-dom";
+import styled from "styled-components";
+import SearchInput from "./components/SearchInput";
+import LoadingSpin from "./components/LoadingSpin";
+import TrendingCarousel from "./components/TrendingCarousel";
 
 const SearchContext = createContext();
 const URL = "watchwhere";
-
+const initialState = {
+  mediaType: {
+    name: localStorage.getItem("mediaType") === "tv" ? "Serie" : "Movie",
+    value: localStorage.getItem("mediaType") || "movie",
+  },
+  movies: [],
+  trendingWeek: [],
+  animes: [],
+  crimes: [],
+  histories: [],
+  loading: false,
+  docus: [],
+};
 
 function App() {
-  const [mediaType, setMediaType] = useState({
-    name: "Movie",
-    value: "movie",
-  });
-  const [movies, setMovies] = useState([]);
-  const [trendingWeek, setTrendingWeek] = useState([]);
-  const [animes, setAnimes] = useState([]);
-  const [crimes, setCrimes] = useState([]);
-  const [histories, setHistories] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [docus, setDocus] = useState([]);
-
+  const [state, setState] = useState(initialState);
 
   const updateMediaType = (option) => {
-    if (option === "movie") {
-      setMediaType({
-        name: "Movie",
-        value: "movie",
-      });
-    } else if (option === "tv"){
-      setMediaType({
-        name: "Serie",
-        value: "tv",
-      });
-    }
+    let name = option === "movie" ? "Movie" : "Serie";
+    setState(() => ({
+      ...initialState,
+      mediaType: {
+        name,
+        value: option,
+      },
+    }));
+    localStorage.setItem("mediaType", option);
+  };
+
+  const setMovies = (arrayUpdate) => {
+    setState((prevState) => ({
+      ...prevState,
+      movies: arrayUpdate,
+    }));
   };
 
   useEffect(() => {
-    let promise = getWeeklyTrendingMovies(mediaType.value);
-    promise.then((movies) => {
-      setTrendingWeek(movies);
-    });
-    let promise2 = getTrendingByGenre(mediaType.value, 16);
-    promise2.then((animes) => {
-      setAnimes(animes);
-    });
-    let promise3 = getTrendingByGenre(mediaType.value, 99);
-    promise3.then((horror) => {
-      setDocus(horror);
-    }
-    );
-    let promise4 = getTrendingByGenre(mediaType.value, 80);
-    promise4.then((crimes) => {
-      setCrimes(crimes);
-    }
-    );
-    let promise5 = getTrendingByGenre(mediaType.value, 36);
-    promise5.then((dramas) => {
-      setHistories(dramas);
-    }
-    );
-  }, [mediaType]);
+    const fetchData = async () => {
+      const { mediaType } = state;
+      const movies = await getWeeklyTrendingMovies(mediaType.value);
+      const animes = await getTrendingByGenre(mediaType.value, 16);
+      const horror = await getTrendingByGenre(mediaType.value, 99);
+      const crimes = await getTrendingByGenre(mediaType.value, 80);
+      const dramas = await getTrendingByGenre(mediaType.value, 36);
 
+      setState((prevState) => ({
+        ...prevState,
+        trendingWeek: movies,
+        animes: animes,
+        docus: horror,
+        crimes: crimes,
+        histories: dramas,
+      }));
+    };
 
-  // add event listener to listen when user presses enter or clicks search button
+    fetchData();
+  }, [state]);
+
   useEffect(() => {
     const handleEvent = () => {
-        setLoading(!loading);
-    }
+      setState((prevState) => ({
+        ...prevState,
+        loading: !prevState.loading,
+      }));
+    };
     document.addEventListener("thereIsAQuery", handleEvent);
     return () => {
-        document.removeEventListener("thereIsAQuery", handleEvent);
-    }
-}, [loading]);
+      document.removeEventListener("thereIsAQuery", handleEvent);
+    };
+  }, []);
+
+  const {
+    mediaType,
+    movies,
+    trendingWeek,
+    animes,
+    crimes,
+    histories,
+    loading,
+    docus,
+  } = state;
 
   return (
     <Container>
-      <div className='flex items-center mb-10'>
+      <div className="flex items-center mb-10">
         <Title>I Wanna Watch a...</Title>
-        <Selector onChange={(e) => {updateMediaType(e.target.value); setMovies([])}}>
+        <Selector onChange={(e) => updateMediaType(e.target.value)} value={mediaType.value}>
           <option value="movie">Movie</option>
           <option value="tv">Serie</option>
         </Selector>
       </div>
-      <SearchContext.Provider value={{setMovies}}>
-        <SearchInput placeholder={`Search a ${mediaType.name}...`} context={SearchContext} media={mediaType.value}/>
+      <SearchContext.Provider value={{ setMovies }}>
+        <SearchInput
+          placeholder={`Search a ${mediaType.name}...`}
+          context={SearchContext}
+          media={mediaType.value}
+        />
       </SearchContext.Provider>
-      {loading && <LoadingSpin/>}
+      {loading && <LoadingSpin />}
       <MoviesContainer>
         {movies.map((movie) => (
           <Movie
-          key={movie.id}
-          to={`/${URL}/movie/${movie.id}/${mediaType.value}`}
-          className={"shadow inactive-movie "}
+            key={movie.id}
+            to={`/${URL}/${mediaType.value}/${movie.id}`}
+            className="shadow inactive-movie"
           >
-            <Image src={imgUrl(movie)} alt={movie.title}/>
+            <Image src={imgUrl(movie)} alt={movie.title} />
           </Movie>
         ))}
       </MoviesContainer>
-      <TrendingCarousel movies={trendingWeek} media={mediaType} genre={"Weekly"}/>
-      <TrendingCarousel movies={animes} media={mediaType} genre={"Animation"}/>
-      <TrendingCarousel movies={crimes} media={mediaType} genre={"Crime"}/>
-      <TrendingCarousel movies={histories} media={mediaType} genre={"History"}/>
-      <TrendingCarousel movies={docus} media={mediaType} genre={"Documentary"}/>
+      <TrendingCarousel
+        movies={trendingWeek}
+        media={mediaType}
+        genre="Weekly"
+      />
+      <TrendingCarousel movies={animes} media={mediaType} genre="Animation" />
+      <TrendingCarousel movies={crimes} media={mediaType} genre="Crime" />
+      <TrendingCarousel movies={histories} media={mediaType} genre="History" />
+      <TrendingCarousel movies={docus} media={mediaType} genre="Documentary" />
     </Container>
   );
 }
+
+const Selector = styled.select`
+  background-color: #3730a3;
+  font-size: 1.2em;
+  height: 40px;
+  padding: 0 10px;
+  cursor: pointer;
+  border-radius: 5px;
+  border: 2px solid #3730a3;
+  &:hover {
+    background-color: #4338ca;
+  }
+  @media (max-width: 768px) {
+    font-size: 1em;
+  }
+`;
+const MoviesContainer = styled.div`
+  user-select: none;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  overflow-x: scroll;
+  overflow-y: visible;
+  scroll-behavior: smooth;
+  transition: all 0.5s ease;
+  justify-content: flex-start;
+
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+  &::-webkit-scrollbar {
+    width: 1px;
+  }
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: transparent;
+  }
+  width: 85vw;
+`;
 
 const Image = styled.img`
   width: 200px;
@@ -128,64 +194,16 @@ const Container = styled.div`
   justify-content: center;
 `;
 
-const MoviesContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  margin: 40px;
-  overflow-y: hidden;
-  overflow-x: scroll;
-  scroll-behavior: smooth;
-  transition: all 0.5s ease;
-  justify-content: flex-start;
-
-  scrollbar-width: thin;
-  scrollbar-color: transparent transparent;
-  
-  &::-webkit-scrollbar {
-    width: 1px;
-  }
-  
-  &::-webkit-scrollbar-track {
-    background: transparent;
-  }
-  
-  &::-webkit-scrollbar-thumb {
-    background-color: transparent;
-  }
-  width: 85vw;
-  // justify-content: center;
-  // flex-wrap: wrap;
-`;
-
-const Selector = styled.select`
-  background-color: #3730a3;
-  font-size: 1.2em;
-  height: 40px;
-  padding: 0 10px;
-  cursor: pointer;
-  border-radius: 5px;
-  border: 2px solid #3730a3;
-  &:hover {
-    background-color: #4338ca;
-  };
-  @media (max-width: 768px) {
-    font-size: 1em;
-  }
-`;
-
 const Movie = styled(Link)`
   display: flex;
   flex-direction: row;
-  margin: 5px;
   cursor: pointer;
   transition: all 0.5s ease;
+  margin: 30px 10px;
   &:hover {
-    margin-left: 15px;
-    margin-right: 15px;
-  };
+    transform: scale(1.05);
+  }
 `;
-
 
 const Title = styled.h2`
   font-size: 1.4em;
@@ -196,7 +214,5 @@ const Title = styled.h2`
     font-size: 1em;
   }
 `;
-
-
 
 export default App;
