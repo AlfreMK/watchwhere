@@ -166,6 +166,7 @@ const MoviesContainer = styled.div`
   scroll-behavior: smooth;
   transition: all 0.5s ease;
   justify-content: flex-start;
+  margin-top: 20px;
 
   scrollbar-width: thin;
   scrollbar-color: transparent transparent;
@@ -185,7 +186,6 @@ const Image = styled.img`
   width: 200px;
   height: 300px;
   object-fit: cover;
-  // media
   @media (max-width: 768px) {
     width: 100px;
     height: 150px;
@@ -204,7 +204,7 @@ const Movie = styled(Link)`
   flex-direction: row;
   cursor: pointer;
   transition: all 0.5s ease;
-  margin: 30px 10px;
+  margin: 10px;
   &:hover {
     transform: scale(1.05);
   }
