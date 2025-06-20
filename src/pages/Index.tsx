@@ -36,7 +36,7 @@ function Index() {
   })
 
   return (
-    <div className="w-full flex flex-col items-center justify-center gap-8 px-24">
+    <div className="w-full flex flex-col items-center justify-center gap-8 md:px-24 px-4">
       <div className="flex items-center mb-10">
         <Title>I Wanna Watch a...</Title>
         <Selector
