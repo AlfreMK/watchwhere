@@ -1,33 +1,47 @@
-import styled from "styled-components";
-import { Link } from "react-router-dom";
-import { imgUrl } from "../api/apiFunctions";
-import LoadingSpin from "./LoadingSpin";
+import { type MediaType, MEDIA_TYPES } from '@/mediaTypes'
+import styled from 'styled-components'
+import { Link } from 'react-router'
 
-const URL = "watchwhere";
+const BASE_URL = 'watchwhere'
 
-function TrendingCarousel(props) {
+const mediaNameByType = {
+  [MEDIA_TYPES.MOVIE]: 'Movie',
+  [MEDIA_TYPES.TV_SHOW]: 'TV Show',
+} as const
+
+function TrendingCarousel({
+  genre,
+  mediaType,
+  movies,
+  isLoading,
+}: {
+  genre: string
+  mediaType: MediaType
+  movies: { id: string; title: string; imgUrl: string }[]
+  isLoading?: boolean
+}) {
   return (
     <Container>
       <TitleTrending>
-        {props.genre} Trending {props.media.name}s
+        {genre} Trending {mediaNameByType[mediaType]}s
       </TitleTrending>
-      {props.movies.length === 0 && <LoadingSpin />}
+      {isLoading && <div>Loading...</div>}
       <MoviesContainer>
-        {props.movies.map((movie) => (
+        {movies.map(movie => (
           <Movie
             key={movie.id}
-            to={`/${URL}/${props.media.value}/${movie.id}`}
-            className={"shadow inactive-movie "}
+            to={`/${BASE_URL}/${mediaType}/${movie.id}`}
+            className={'shadow'}
           >
-            <Image src={imgUrl(movie)} alt={movie.title} />
+            <Image src={movie.imgUrl} alt={movie.title} />
           </Movie>
         ))}
       </MoviesContainer>
     </Container>
-  );
+  )
 }
 
-export default TrendingCarousel;
+export default TrendingCarousel
 
 const MoviesContainer = styled.div`
   user-select: none;
@@ -52,7 +66,7 @@ const MoviesContainer = styled.div`
     background-color: transparent;
   }
   width: 85vw;
-`;
+`
 
 const Image = styled.img`
   width: 200px;
@@ -63,14 +77,14 @@ const Image = styled.img`
     width: 100px;
     height: 150px;
   }
-`;
+`
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-`;
+`
 
 const Movie = styled(Link)`
   display: flex;
@@ -80,10 +94,11 @@ const Movie = styled(Link)`
   margin: 0 10px;
   margin-top: 10px;
   margin-bottom: 30px;
+  flex-shrink: 0;
   &:hover {
     transform: scale(1.05);
   }
-`;
+`
 
 const TitleTrending = styled.h2`
   font-size: 1.2em;
@@ -92,4 +107,4 @@ const TitleTrending = styled.h2`
   @media (max-width: 768px) {
     font-size: 0.9em;
   }
-`;
+`
