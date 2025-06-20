@@ -1,5 +1,9 @@
 @import 'tailwindcss';
 
+body {
+  width: 100%;
+}
+
 :root {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -10,5 +14,6 @@
   align-items: center;
   justify-content: center;
   background-color: #090b13;
+  width: 100%;
   color: rgb(226, 226, 226);
 }
