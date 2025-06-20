@@ -36,7 +36,7 @@ function Index() {
   })
 
   return (
-    <div className="w-full flex flex-col items-center justify-center gap-8">
+    <div className="w-full flex flex-col items-center justify-center gap-8 px-24">
       <div className="flex items-center mb-10">
         <Title>I Wanna Watch a...</Title>
         <Selector
@@ -51,31 +51,31 @@ function Index() {
       <TrendingCarousel
         genre="Weekly"
         mediaType={mediaType}
-        movies={weeklyTrendingMovies.data || []}
+        mediaObjects={weeklyTrendingMovies.data || []}
         isLoading={weeklyTrendingMovies.isLoading}
       />
       <TrendingCarousel
         genre="Crime"
         mediaType={mediaType}
-        movies={trendingCrimeMovies.data || []}
+        mediaObjects={trendingCrimeMovies.data || []}
         isLoading={trendingCrimeMovies.isLoading}
       />
       <TrendingCarousel
         genre="Animation"
         mediaType={mediaType}
-        movies={trendingAnimationMovies.data || []}
+        mediaObjects={trendingAnimationMovies.data || []}
         isLoading={trendingAnimationMovies.isLoading}
       />
       <TrendingCarousel
         genre="Horror"
         mediaType={mediaType}
-        movies={trendingHorrorMovies.data || []}
+        mediaObjects={trendingHorrorMovies.data || []}
         isLoading={trendingHorrorMovies.isLoading}
       />
       <TrendingCarousel
         genre="Drama"
         mediaType={mediaType}
-        movies={trendingDramaMovies.data || []}
+        mediaObjects={trendingDramaMovies.data || []}
         isLoading={trendingDramaMovies.isLoading}
       />
     </div>

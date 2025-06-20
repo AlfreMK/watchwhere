@@ -15,7 +15,7 @@ function SearchInput({
   }
 
   return (
-    <div className="relative mt-1 min-w-300px flex">
+    <div className="relative mt-1 min-w-300px flex w-full">
       <input
         type="text"
         value={search}

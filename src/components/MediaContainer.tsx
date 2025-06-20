@@ -50,7 +50,7 @@ const CarouselContainer = styled.div`
   &::-webkit-scrollbar-thumb {
     background-color: transparent;
   }
-  width: 85vw;
+  width: 100%;
 `
 
 const Image = styled.img`

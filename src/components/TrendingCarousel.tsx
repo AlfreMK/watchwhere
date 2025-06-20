@@ -1,9 +1,7 @@
 import { type MediaType, MEDIA_TYPES } from '@/mediaTypes'
 import styled from 'styled-components'
-import { Link } from 'react-router'
 import { LoadingSpinner } from '@/components/LoadingSpinner'
-
-const BASE_URL = 'watchwhere'
+import MediaContainer from '@/components/MediaContainer'
 
 const mediaNameByType = {
   [MEDIA_TYPES.MOVIE]: 'Movie',
@@ -13,12 +11,12 @@ const mediaNameByType = {
 function TrendingCarousel({
   genre,
   mediaType,
-  movies,
+  mediaObjects,
   isLoading,
 }: {
   genre: string
   mediaType: MediaType
-  movies: { id: string; title: string; imgUrl: string }[]
+  mediaObjects: { id: string; title: string; imgUrl: string }[]
   isLoading?: boolean
 }) {
   return (
@@ -27,58 +25,12 @@ function TrendingCarousel({
         {genre} Trending {mediaNameByType[mediaType]}s
       </TitleTrending>
       {isLoading && <LoadingSpinner className="md:h-[300px] h-[150px]" />}
-      <MoviesContainer>
-        {movies.map(movie => (
-          <Movie
-            key={movie.id}
-            to={`/${BASE_URL}/${mediaType}/${movie.id}`}
-            className={'shadow'}
-          >
-            <Image src={movie.imgUrl} alt={movie.title} />
-          </Movie>
-        ))}
-      </MoviesContainer>
+      <MediaContainer mediaType={mediaType} mediaObjects={mediaObjects} />
     </Container>
   )
 }
 
 export default TrendingCarousel
-
-const MoviesContainer = styled.div`
-  user-select: none;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  overflow-x: scroll;
-  overflow-y: visible;
-  scroll-behavior: smooth;
-  transition: all 0.5s ease;
-  justify-content: flex-start;
-
-  scrollbar-width: thin;
-  scrollbar-color: transparent transparent;
-  &::-webkit-scrollbar {
-    width: 1px;
-  }
-  &::-webkit-scrollbar-track {
-    background: transparent;
-  }
-  &::-webkit-scrollbar-thumb {
-    background-color: transparent;
-  }
-  width: 85vw;
-`
-
-const Image = styled.img`
-  width: 200px;
-  height: 300px;
-  object-fit: cover;
-  // media
-  @media (max-width: 768px) {
-    width: 100px;
-    height: 150px;
-  }
-`
 
 const Container = styled.div`
   display: flex;
@@ -87,23 +39,10 @@ const Container = styled.div`
   justify-content: center;
 `
 
-const Movie = styled(Link)`
-  display: flex;
-  flex-direction: row;
-  cursor: pointer;
-  transition: all 0.5s ease;
-  margin: 0 10px;
-  margin-top: 10px;
-  margin-bottom: 30px;
-  flex-shrink: 0;
-  &:hover {
-    transform: scale(1.05);
-  }
-`
-
 const TitleTrending = styled.h2`
   font-size: 1.2em;
-  width: 80vw;
+  width: 100%;
+  padding: 0 12px;
   letter-spacing: 1px;
   @media (max-width: 768px) {
     font-size: 0.9em;

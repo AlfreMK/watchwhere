@@ -16,7 +16,7 @@ function SearchMedia({ mediaType }: { mediaType: MediaType }) {
   })
   
   return (
-    <div className="flex flex-col gap-4 items-center">
+    <div className="flex flex-col gap-4 items-center w-full">
       <SearchInput
         placeholder={`Search a ${mediaType}...`}
         onSearch={setSearch}
