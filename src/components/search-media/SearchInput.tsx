@@ -10,8 +10,9 @@ function SearchInput({
 } = {}) {
   const [search, setSearch] = useState('')
 
-  const handleSearch = () => {
-    onSearch?.(search)
+  const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearch(e.target.value)
+    onSearch?.(e.target.value)
   }
 
   return (
@@ -19,14 +20,13 @@ function SearchInput({
       <input
         type="text"
         value={search}
-        onChange={e => setSearch(e.target.value)}
+        onChange={onInputChange}
         className="w-full pl-6 pr-10 py-2 border-2 border-indigo-200 rounded-full hover:border-indigo-300 focus:outline-none focus:border-indigo-500 transition-colors text-sm md:text-base"
         placeholder={placeholder || 'Search...'}
         autoComplete="off"
-        onKeyDown={handleSearch}
       />
       <button
-        onClick={handleSearch}
+        onClick={() => onSearch?.(search)}
         className="block w-7 h-7 text-center text-xl leading-0 absolute top-1.5 md:top-2 right-2 text-gray-400 cursor-pointer focus:outline-none hover:text-indigo-700 transition-colors"
       >
         <Search color="white" />

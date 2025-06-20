@@ -3,7 +3,7 @@ import { type MediaType } from '@/mediaTypes'
 import SearchInput from '@/components/search-media/SearchInput'
 import MediaContainer from '@/components/MediaContainer'
 import { useSearchMediaQuery } from '@/hooks/queries/useSearchMedia'
-import useDebounce from '@/hooks/useDebounce'
+import { useDebounce } from '@/hooks/useDebounce'
 import { LoadingSpinner } from '@/components/LoadingSpinner'
 
 function SearchMedia({ mediaType }: { mediaType: MediaType }) {
