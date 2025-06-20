@@ -8,19 +8,33 @@ import Footer from '@/components/Footer.tsx'
 import { MEDIA_TYPES } from '@/components/mediaTypes.ts'
 import Logo from '@/components/Logo.tsx'
 import { Routes, Route, BrowserRouter} from 'react-router'
+import {
+  QueryClient,
+  QueryClientProvider,
+} from '@tanstack/react-query'
 
 const BASE_URL = "watchwhere"
 
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+    },
+  },
+})
+
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <Logo />
-    <BrowserRouter>
-    <Routes>
-      <Route path={`${BASE_URL}/`} element={<Index />} />
-      <Route path={`${BASE_URL}/${MEDIA_TYPES.MOVIE}/:id`} element={<Movie />}/>
-      <Route path={`${BASE_URL}/${MEDIA_TYPES.TV_SHOW}/:id`} element={<TvShow />}/>
-    </Routes>
-    </BrowserRouter>
-    <Footer />
+    <QueryClientProvider client={queryClient}>
+      <Logo />
+      <BrowserRouter>
+      <Routes>
+        <Route path={`${BASE_URL}/`} element={<Index />} />
+        <Route path={`${BASE_URL}/${MEDIA_TYPES.MOVIE}/:id`} element={<Movie />}/>
+        <Route path={`${BASE_URL}/${MEDIA_TYPES.TV_SHOW}/:id`} element={<TvShow />}/>
+      </Routes>
+      </BrowserRouter>
+      <Footer />
+    </QueryClientProvider>
   </StrictMode>
 )

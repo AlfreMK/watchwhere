@@ -13,24 +13,27 @@ function TrendingCarousel({
   genre,
   mediaType,
   movies,
+  isLoading,
 }: {
   genre: string
   mediaType: MediaType
-  movies: { id: string; title: string, posterSrc: string }[]
+  movies: { id: string; title: string; imgUrl: string }[]
+  isLoading?: boolean
 }) {
   return (
     <Container>
       <TitleTrending>
         {genre} Trending {mediaNameByType[mediaType]}s
       </TitleTrending>
+      {isLoading && <div>Loading...</div>}
       <MoviesContainer>
         {movies.map(movie => (
           <Movie
             key={movie.id}
             to={`/${BASE_URL}/${mediaType}/${movie.id}`}
-            className={'shadow inactive-movie '}
+            className={'shadow'}
           >
-            <Image src={movie.posterSrc} alt={movie.title} />
+            <Image src={movie.imgUrl} alt={movie.title} />
           </Movie>
         ))}
       </MoviesContainer>
@@ -91,6 +94,7 @@ const Movie = styled(Link)`
   margin: 0 10px;
   margin-top: 10px;
   margin-bottom: 30px;
+  flex-shrink: 0;
   &:hover {
     transform: scale(1.05);
   }

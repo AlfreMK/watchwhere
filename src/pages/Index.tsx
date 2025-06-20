@@ -1,15 +1,55 @@
 import SearchInput from '@/components/SearchInput'
 import TrendingCarousel from '@/components/TrendingCarousel'
 import { MEDIA_TYPES } from '@/components/mediaTypes'
+import { useTrendingMediaQuery } from '@/queries/useTrendingMedia'
 
 function Index() {
+  const trendingCrimeMovies = useTrendingMediaQuery({
+    media: 'movie',
+    genre: 'crime',
+  })
+
+  const trendingAnimationMovies = useTrendingMediaQuery({
+    media: 'movie',
+    genre: 'animation',
+  })
+
+  const trendingHorrorMovies = useTrendingMediaQuery({
+    media: 'movie',
+    genre: 'horror',
+  })
+
+  const trendingDramaMovies = useTrendingMediaQuery({
+    media: 'movie',
+    genre: 'drama',
+  })
+
   return (
     <div className="w-full flex flex-col items-center justify-center gap-8">
       <SearchInput />
       <TrendingCarousel
-        genre="Miku"
+        genre="Crime"
         mediaType={MEDIA_TYPES.MOVIE}
-        movies={[]}
+        movies={trendingCrimeMovies.data || []}
+        isLoading={trendingCrimeMovies.isLoading}
+      />
+      <TrendingCarousel
+        genre="Animation"
+        mediaType={MEDIA_TYPES.MOVIE}
+        movies={trendingAnimationMovies.data || []}
+        isLoading={trendingAnimationMovies.isLoading}
+      />
+      <TrendingCarousel
+        genre="Horror"
+        mediaType={MEDIA_TYPES.MOVIE}
+        movies={trendingHorrorMovies.data || []}
+        isLoading={trendingHorrorMovies.isLoading}
+      />
+      <TrendingCarousel
+        genre="Drama"
+        mediaType={MEDIA_TYPES.MOVIE}
+        movies={trendingDramaMovies.data || []}
+        isLoading={trendingDramaMovies.isLoading}
       />
     </div>
   )
