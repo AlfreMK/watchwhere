@@ -3,8 +3,8 @@ import {
   type MediaResponse,
   type TrendingGenre,
   TRENDING_GENRES,
-} from '@/queries/types'
-import { fetchApi } from '@/queries/apiClient'
+} from '@/hooks/queries/types'
+import { fetchApi } from '@/hooks/queries/apiClient'
 import { type MediaType } from '@/mediaTypes'
 
 export const useTrendingMediaRequests = () => {

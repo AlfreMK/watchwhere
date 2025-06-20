@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import { useSearchMediaRequests } from './apiCalls'
-import { transformMedia } from '@/queries/dataTransforms'
+import { transformMedia } from '@/hooks/queries/dataTransforms'
 
 export const useSearchMediaQuery = ({
   media,

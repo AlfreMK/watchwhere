@@ -1,5 +1,5 @@
-import { fetchApi } from '@/queries/apiClient'
-import { type ResultsResponse, type MediaResponse } from '@/queries/types'
+import { fetchApi } from '@/hooks/queries/apiClient'
+import { type ResultsResponse, type MediaResponse } from '@/hooks/queries/types'
 import { type MediaType } from '@/mediaTypes'
 
 export const useSearchMediaRequests = () => {

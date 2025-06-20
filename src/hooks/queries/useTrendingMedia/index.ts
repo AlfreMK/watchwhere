@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
-import { useTrendingMediaRequests } from '@/queries/useTrendingMedia/apiCalls'
-import { transformMedia } from '@/queries/dataTransforms'
-import { type TrendingGenre } from '@/queries/types'
+import { useTrendingMediaRequests } from '@/hooks/queries/useTrendingMedia/apiCalls'
+import { transformMedia } from '@/hooks/queries/dataTransforms'
+import { type TrendingGenre } from '@/hooks/queries/types'
 
 export const useTrendingMediaQuery = ({
   media,
