@@ -4,22 +4,28 @@ on:
   push:
     branches: ['main']
 
-runs:
-  using: 'composite'
-  steps:
-    - run: npm i
-      shell: bash
-    - run: npm ci
-      shell: bash
-    - run: npm run build
-      shell: bash
-    - run: git config user.name github-actions
-      shell: bash
-    - run: git config user.email github-actions@github.com
-      shell: bash
-    - run: git --work-tree dist add --all
-      shell: bash
-    - run: git commit -m "Automatic Build and Deploy run by GitHub Actions"
-      shell: bash
-    - run: git push origin HEAD:gh-pages --force
-      shell: bash
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Build
+        run: npm run build
+        
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
