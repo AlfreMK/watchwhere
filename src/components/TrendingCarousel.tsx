@@ -1,4 +1,4 @@
-import { type MediaType, MEDIA_TYPES } from '@/components/mediaTypes'
+import { type MediaType, MEDIA_TYPES } from '@/mediaTypes'
 import styled from 'styled-components'
 import { Link } from 'react-router'
 

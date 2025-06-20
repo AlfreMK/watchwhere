@@ -1,9 +1,16 @@
-import SearchInput from '@/components/SearchInput'
+import SearchMedia from '@/components/search-media/SearchMedia'
 import TrendingCarousel from '@/components/TrendingCarousel'
-import { MEDIA_TYPES } from '@/components/mediaTypes'
-import { useTrendingMediaQuery } from '@/queries/useTrendingMedia'
+import { MEDIA_TYPES } from '@/mediaTypes'
+import {
+  useTrendingMediaQuery,
+  useWeeklyTrendingMediaQuery,
+} from '@/queries/useTrendingMedia'
 
 function Index() {
+  const weeklyTrendingMovies = useWeeklyTrendingMediaQuery({
+    media: 'movie',
+  })
+
   const trendingCrimeMovies = useTrendingMediaQuery({
     media: 'movie',
     genre: 'crime',
@@ -26,7 +33,13 @@ function Index() {
 
   return (
     <div className="w-full flex flex-col items-center justify-center gap-8">
-      <SearchInput />
+      <SearchMedia mediaType={MEDIA_TYPES.MOVIE} />
+      <TrendingCarousel
+        genre="Weekly"
+        mediaType={MEDIA_TYPES.MOVIE}
+        movies={weeklyTrendingMovies.data || []}
+        isLoading={weeklyTrendingMovies.isLoading}
+      />
       <TrendingCarousel
         genre="Crime"
         mediaType={MEDIA_TYPES.MOVIE}

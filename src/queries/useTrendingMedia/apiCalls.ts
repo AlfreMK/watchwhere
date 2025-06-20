@@ -3,26 +3,35 @@ import {
   type MediaResponse,
   type TrendingGenre,
   TRENDING_GENRES,
-} from './types'
-
-const API_KEY = '02f58fc0fefc4952073087c1738e0861'
-const BASE_URL = 'https://api.themoviedb.org/3'
+} from '@/queries/types'
+import { fetchApi } from '@/queries/apiClient'
+import { type MediaType } from '@/mediaTypes'
 
 export const useTrendingMediaRequests = () => {
+  const getWeeklyTrendingMovies = async (media: MediaType) => {
+    const data = await fetchApi<ResultsResponse<MediaResponse>>(`/trending/${media}/week`)
+    return data.results
+  }
+
   const getTrendingByGenre = async ({
     media,
     genre,
   }: {
-    media: 'movie' | 'tv'
+    media: MediaType
     genre: TrendingGenre
   }) => {
-    const url = `${BASE_URL}/discover/${media}?api_key=${API_KEY}&sort_by=popularity.desc&with_genres=${TRENDING_GENRES[genre]}`
-    const response = await fetch(url)
-    const data: ResultsResponse<MediaResponse> = await response.json()
+    const data = await fetchApi<ResultsResponse<MediaResponse>>(
+      `/discover/${media}`,
+      {
+        sort_by: 'popularity.desc',
+        with_genres: TRENDING_GENRES[genre],
+      },
+    )
     return data.results
   }
 
   return {
+    getWeeklyTrendingMovies,
     getTrendingByGenre,
   }
 }

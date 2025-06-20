@@ -5,7 +5,7 @@ import Index from '@/pages/Index.tsx'
 import Movie from '@/pages/Movie.tsx'
 import TvShow from '@/pages/TvShow.tsx'
 import Footer from '@/components/Footer.tsx'
-import { MEDIA_TYPES } from '@/components/mediaTypes.ts'
+import { MEDIA_TYPES } from '@/mediaTypes'
 import Logo from '@/components/Logo.tsx'
 import { Routes, Route, BrowserRouter} from 'react-router'
 import {
@@ -19,6 +19,7 @@ const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       refetchOnWindowFocus: false,
+      staleTime: Infinity,
     },
   },
 })

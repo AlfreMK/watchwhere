@@ -1,7 +1,7 @@
-import { useTrendingMediaRequests } from './apiCalls'
-import { transformMedia } from './dataTransforms'
 import { useQuery } from '@tanstack/react-query'
-import { type TrendingGenre } from './types'
+import { useTrendingMediaRequests } from '@/queries/useTrendingMedia/apiCalls'
+import { transformMedia } from '@/queries/dataTransforms'
+import { type TrendingGenre } from '@/queries/types'
 
 export const useTrendingMediaQuery = ({
   media,
@@ -15,6 +15,21 @@ export const useTrendingMediaQuery = ({
     queryKey: ['trendingMedia', media, genre],
     queryFn: async () => {
       const data = await getTrendingByGenre({ media, genre })
+      return data.map(transformMedia)
+    },
+  })
+}
+
+export const useWeeklyTrendingMediaQuery = ({
+  media,
+}: {
+  media: 'movie' | 'tv'
+}) => {
+  const { getWeeklyTrendingMovies } = useTrendingMediaRequests()
+  return useQuery({
+    queryKey: ['weeklyTrendingMedia', media],
+    queryFn: async () => {
+      const data = await getWeeklyTrendingMovies(media)
       return data.map(transformMedia)
     },
   })
