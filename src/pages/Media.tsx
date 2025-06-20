@@ -2,6 +2,7 @@ import { useParams } from 'react-router'
 import styled from 'styled-components'
 import { useMediaInfoQuery } from '@/hooks/queries/useMediaInfo'
 import { type MediaType } from '@/mediaTypes'
+import { LoadingSpinner } from '@/components/LoadingSpinner'
 
 function Media() {
   const { id } = useParams()
@@ -9,14 +10,14 @@ function Media() {
   const { data: mediaInfo } = useMediaInfoQuery({ media: media as MediaType, id })
   return (
     <Container className="m-2">
-      {mediaInfo?.id === undefined && <div>Loading...</div>}
-      {mediaInfo?.id !== undefined && (
+      {!mediaInfo?.id && <LoadingSpinner className="h-[300px]" />}
+      {!!mediaInfo?.id && (
         <Container>
-          <MoviePoster style={{ backgroundImage: `url(${mediaInfo.imgUrl})` }} />
-          <MovieFront>
+          <MediaPoster style={{ backgroundImage: `url(${mediaInfo.imgUrl})` }} />
+          <MediaFront>
             <Image src={mediaInfo.imgUrl} alt={mediaInfo.title} />
             <Title>{mediaInfo.title}</Title>
-          </MovieFront>
+          </MediaFront>
           <Info>
             <Overview>{mediaInfo.overview}</Overview>
           </Info>
@@ -47,7 +48,7 @@ const Container = styled.div`
   position: relative;
 `
 
-const MoviePoster = styled.div`
+const MediaPoster = styled.div`
   width: 100%;
   height: 450px;
   display: flex;
@@ -62,7 +63,7 @@ const MoviePoster = styled.div`
   }
 `
 
-const MovieFront = styled.div`
+const MediaFront = styled.div`
   position: absolute;
   top: 0;
   display: flex;

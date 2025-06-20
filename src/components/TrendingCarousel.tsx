@@ -1,6 +1,7 @@
 import { type MediaType, MEDIA_TYPES } from '@/mediaTypes'
 import styled from 'styled-components'
 import { Link } from 'react-router'
+import { LoadingSpinner } from '@/components/LoadingSpinner'
 
 const BASE_URL = 'watchwhere'
 
@@ -25,7 +26,7 @@ function TrendingCarousel({
       <TitleTrending>
         {genre} Trending {mediaNameByType[mediaType]}s
       </TitleTrending>
-      {isLoading && <div>Loading...</div>}
+      {isLoading && <LoadingSpinner className="md:h-[300px] h-[150px]" />}
       <MoviesContainer>
         {movies.map(movie => (
           <Movie
