@@ -4,12 +4,12 @@ import {
   type TrendingGenre,
   TRENDING_GENRES,
 } from '@/hooks/queries/types'
-import { fetchApi } from '@/hooks/queries/apiClient'
+import { tmdbClient } from '@/hooks/queries/apiClients'
 import { type MediaType } from '@/mediaTypes'
 
 export const useTrendingMediaRequests = () => {
   const getWeeklyTrendingMovies = async (media: MediaType) => {
-    const data = await fetchApi<ResultsResponse<MediaResponse>>(`/trending/${media}/week`)
+    const data = await tmdbClient<ResultsResponse<MediaResponse>>(`/trending/${media}/week`)
     return data.results
   }
 
@@ -20,7 +20,7 @@ export const useTrendingMediaRequests = () => {
     media: MediaType
     genre: TrendingGenre
   }) => {
-    const data = await fetchApi<ResultsResponse<MediaResponse>>(
+    const data = await tmdbClient<ResultsResponse<MediaResponse>>(
       `/discover/${media}`,
       {
         sort_by: 'popularity.desc',

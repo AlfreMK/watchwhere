@@ -3,13 +3,14 @@ import styled from 'styled-components'
 import { useMediaInfoQuery } from '@/hooks/queries/useMediaInfo'
 import { type MediaType } from '@/mediaTypes'
 import { LoadingSpinner } from '@/components/LoadingSpinner'
+import Providers from '@/components/Providers'
 
 function Media() {
   const { id } = useParams()
   const { media } = useParams()
   const { data: mediaInfo } = useMediaInfoQuery({ media: media as MediaType, id })
   return (
-    <Container className="m-2">
+    <Container className="m-2 w-full">
       {!mediaInfo?.id && <LoadingSpinner className="h-[300px]" />}
       {!!mediaInfo?.id && (
         <Container>
@@ -20,6 +21,7 @@ function Media() {
           </MediaFront>
           <Info>
             <Overview>{mediaInfo.overview}</Overview>
+            <Providers media={media as MediaType} mediaId={mediaInfo.id} countryCode="CL" />
           </Info>
         </Container>
       )}
@@ -46,6 +48,7 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   position: relative;
+  width: 100%;
 `
 
 const MediaPoster = styled.div`

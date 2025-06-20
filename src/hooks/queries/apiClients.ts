@@ -1,7 +1,7 @@
 const API_KEY = '02f58fc0fefc4952073087c1738e0861'
 const BASE_URL = 'https://api.themoviedb.org/3'
 
-export const fetchApi = async <TResponse>(
+export const tmdbClient = async <TResponse>(
   url: string,
   params?: Record<string, string>,
 ) => {

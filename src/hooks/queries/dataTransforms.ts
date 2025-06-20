@@ -1,16 +1,17 @@
+import notFoundImg from '@/assets/not-found.png'
 import type { MediaResponse } from './types'
 
-const imgUrl = (media: MediaResponse) => {
-  if (media.poster_path === null) {
-    return 'https://via.placeholder.com/150'
+export const imgUrl = (posterPath: string) => {
+  if (posterPath === null) {
+    return notFoundImg
   } else {
-    return `https://image.tmdb.org/t/p/w500${media.poster_path}`
+    return `https://image.tmdb.org/t/p/w500${posterPath}`
   }
 }
 
 export const transformMedia = (media: MediaResponse) => ({
   id: media.id,
   title: media.title,
-  imgUrl: imgUrl(media),
+  imgUrl: imgUrl(media.poster_path),
   overview: media.overview,
 })
