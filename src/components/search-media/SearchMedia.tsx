@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { type MediaType } from '@/mediaTypes'
 import SearchInput from '@/components/search-media/SearchInput'
 import MediaContainer from '@/components/MediaContainer'
-import { useSearchMediaQuery } from '@/queries/useSearchMedia'
+import { useSearchMediaQuery } from '@/hooks/queries/useSearchMedia'
 import useDebounce from '@/hooks/useDebounce'
 
 function SearchMedia({ mediaType }: { mediaType: MediaType }) {

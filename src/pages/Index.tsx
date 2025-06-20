@@ -6,7 +6,7 @@ import { MEDIA_TYPES, type MediaType } from '@/mediaTypes'
 import {
   useTrendingMediaQuery,
   useWeeklyTrendingMediaQuery,
-} from '@/queries/useTrendingMedia'
+} from '@/hooks/queries/useTrendingMedia'
 
 function Index() {
   const [mediaType, setMediaType] = useState<MediaType>(MEDIA_TYPES.MOVIE)
