@@ -1,7 +1,7 @@
-import { useState } from "react";
 import { COUNTRIES, type Country } from "./countries";
 import Select from "@/components/Select";
 import { findFlagUrlByIso2Code } from "country-flags-svg";
+import { useSelectedCountry } from "@/hooks/useSelectedCountry";
 
 const COUNTRIES_OPTIONS = COUNTRIES.map((country) => ({
   value: country,
@@ -9,7 +9,7 @@ const COUNTRIES_OPTIONS = COUNTRIES.map((country) => ({
 }));
 
 export default function SelectCountry() {
-  const [selectedCountry, setSelectedCountry] = useState<Country>("CL");
+  const { selectedCountry, setSelectedCountry } = useSelectedCountry();
   return (
     <Select
       items={COUNTRIES_OPTIONS}

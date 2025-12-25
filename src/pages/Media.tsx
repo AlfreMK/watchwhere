@@ -4,11 +4,13 @@ import { useMediaInfoQuery } from '@/hooks/queries/useMediaInfo'
 import { type MediaType } from '@/mediaTypes'
 import { LoadingSpinner } from '@/components/LoadingSpinner'
 import Providers from '@/components/Providers'
+import { useSelectedCountry } from '@/hooks/useSelectedCountry'
 
 function Media() {
   const { id } = useParams()
   const { media } = useParams()
   const { data: mediaInfo } = useMediaInfoQuery({ media: media as MediaType, id })
+  const { selectedCountry } = useSelectedCountry();
   return (
     <Container className="m-2 w-full">
       {!mediaInfo?.id && <LoadingSpinner className="h-[300px]" />}
@@ -21,7 +23,7 @@ function Media() {
           </MediaFront>
           <Info>
             <Overview>{mediaInfo.overview}</Overview>
-            <Providers media={media as MediaType} mediaId={mediaInfo.id} countryCode="CL" />
+            <Providers media={media as MediaType} mediaId={mediaInfo.id} countryCode={selectedCountry} />
           </Info>
         </Container>
       )}

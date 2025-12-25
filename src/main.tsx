@@ -10,6 +10,7 @@ import {
   QueryClient,
   QueryClientProvider,
 } from '@tanstack/react-query'
+import { SelectedCountryProvider } from '@/components/SelectedCountryProvider'
 
 const BASE_URL = "watchwhere"
 
@@ -25,14 +26,16 @@ const queryClient = new QueryClient({
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
-      <Logo />
-      <BrowserRouter>
-      <Routes>
-        <Route path={`${BASE_URL}/`} element={<Index />} />
-        <Route path={`${BASE_URL}/:media/:id`} element={<Media />}/>
-      </Routes>
-      </BrowserRouter>
-      <Footer />
+      <SelectedCountryProvider>
+        <Logo />
+        <BrowserRouter>
+        <Routes>
+          <Route path={`${BASE_URL}/`} element={<Index />} />
+          <Route path={`${BASE_URL}/:media/:id`} element={<Media />}/>
+        </Routes>
+        </BrowserRouter>
+        <Footer />
+      </SelectedCountryProvider>
     </QueryClientProvider>
   </StrictMode>
 )
